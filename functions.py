@@ -144,7 +144,8 @@ def plot_league():
     plt.title("Team Performance Across Matchweeks")
     plt.legend(loc="upper left", bbox_to_anchor=(1, 1))  # Put legend outside plot
 
-    # Display the plot
+    # Save the plot
     plt.grid(True)
     plt.tight_layout()
-    plt.show()
+    plt.savefig("plot.png")
+    #plt.show()

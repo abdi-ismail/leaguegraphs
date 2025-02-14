@@ -7,21 +7,18 @@ import json
 
 epl = f"https://www.transfermarkt.co.uk/premier-league/formtabelle/wettbewerb/GB1?saison_id=2024&min=1&max="
 
-
-    
-def fetch_league_data(matchday,league):
+def fetch_league_data(matchweek,league):
     """
-    Fetches Premier League data from Transfermarkt for a given matchday.
+    Fetches Premier League data from Transfermarkt for a given matchweek.
     
     Args:
-        matchday (int): The matchday to fetch data for.
+        league (str): URL associated with given league.
+        matchweek (int): The matchweek to fetch data for.
 
     Returns:
         tuple: A list of club names and a cleaned pandas DataFrame containing the league data.
     """
- 
-
-    url = league + str(matchday)
+    url = league + str(matchweek)
     
     headers = {
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0"
@@ -36,7 +33,7 @@ def fetch_league_data(matchday,league):
     syear_short = soup.find('option', {'selected': 'selected'}).getText()
     syear_long = syear+"/"+ str(int(syear)+1)
 
-    # Extract the table from the page
+    # Extract league table from the page
     table = soup.find_all('table')[1]
     table_rows = table.find_all('tr')
     
@@ -61,11 +58,7 @@ def fetch_league_data(matchday,league):
     # Extract the club names into a list
     clubs = tb["Club"].tolist()
  
-    # return 
     return clubs, tb, syear, syear_long, syear_short, liga
-
-
-
 
 def add_points(team_name, matchweek, points):
     CSV_FILE = "teams_data.csv"
@@ -110,12 +103,12 @@ def save_points_from_matchweeks(start_matchweek, end_matchweek, league):
         end_matchweek (int): The ending matchweek.
     """
     for matchweek in range(start_matchweek, end_matchweek + 1):
-        clubs, tb, syear, syear_long, syear_short, liga = fetch_league_data(matchweek, league)  # Fetch data for the current matchweek #removed liga c
-        matchweek_label = f"{matchweek}"  # Generate matchweek label ##removed matchweek_
+        clubs, tb, syear, syear_long, syear_short, liga = fetch_league_data(matchweek, league)  # Fetch data for the current matchweek
+        matchweek_label = f"{matchweek}"  # Generate matchweek label
         for club in clubs:
             # Get points for the current club from the DataFrame
             points = int(tb.query(f'Club == "{club}"')["Pts"].iloc[0])
-            add_points(club, matchweek_label, points)  # Add points to the dictionary
+            add_points(club, matchweek_label, points)  # Add points to CSV
             
 def plot_league():
     # Load the CSV file

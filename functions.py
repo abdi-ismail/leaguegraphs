@@ -149,3 +149,46 @@ def plot_league():
     plt.tight_layout()
     plt.savefig("plot.png")
     #plt.show()
+    
+def plot_league_subset(n):
+    # Load the CSV file
+    df = pd.read_csv("teams_data.csv")
+
+    # Ensure matchweek columns are integers
+    df.iloc[:, 1:] = df.iloc[:, 1:].astype(int)
+    # Set up the figure
+    plt.figure(figsize=(12, 6))
+
+    # Get the list of matchweeks (all columns except 'Team')
+    matchweeks = df.columns[1:]
+    
+    with open('team_colours.json', 'r') as file:
+        team_colours = json.load(file)
+
+    # Sorts the df based on the final column
+    df_sorted = df.sort_values(by=df.columns[-1], ascending=True)
+
+    # Finds the value of the nth smallest value (considering ties)
+    threshold_value = df_sorted.iloc[(n - 1), -1]  # Get the value of the 5th smallest row in the last column
+
+    # Select all rows where the final value is less than or equal to the threshold_value
+    lowest_rows = df_sorted[df_sorted[df.columns[-1]] <= threshold_value]
+
+    # Plot the selected rows
+    for index, row in lowest_rows.iterrows():
+        plt.plot(matchweeks, row[1:], marker="o", linestyle="-", label=row["Team"],
+                color=team_colours.get(row["Team"], 'black'))  # Default to black if the team is not in the color dictionary)
+
+
+
+    # Add labels and title
+    plt.xlabel("Matchweeks")
+    plt.ylabel("Points")
+    plt.title("Team Performance Across Matchweeks")
+    plt.legend(loc="upper left", bbox_to_anchor=(1, 1))  # Put legend outside plot
+
+    # Save the plot
+    plt.grid(True)
+    plt.tight_layout()
+    plt.savefig("plot.png")
+    #plt.show()

@@ -191,8 +191,6 @@ def plot_league_subset(n, option):
             plt.plot(matchweeks, row[1:], marker="o", linestyle="-", label=row["Team"],
                 color=team_colours.get(row["Team"], 'black'))  # Default to black if the team is not in the color dictionary)        
 
-
-
     # Add labels and title
     plt.xlabel("Matchweeks")
     plt.ylabel("Points")
@@ -205,3 +203,36 @@ def plot_league_subset(n, option):
     plt.savefig("plot.png")    
     
     
+def plot_teams(teams):
+        # Load the CSV file
+    df = pd.read_csv("teams_data.csv")
+
+    # Ensure matchweek columns are integers
+    df.iloc[:, 1:] = df.iloc[:, 1:].astype(int)
+    # Set up the figure
+    plt.figure(figsize=(12, 6))
+
+    # Get the list of matchweeks (all columns except 'Team')
+    matchweeks = df.columns[1:]
+
+    with open('team_colours.json', 'r') as file:
+        team_colours = json.load(file)
+
+    filtered_df = df[df.iloc[:, 0].isin(teams)]
+
+    # Plot each team
+    for index, row in filtered_df.iterrows():
+        plt.plot(matchweeks, row[1:], marker="o", linestyle="-", label=row["Team"],
+                color=team_colours.get(row["Team"], 'black'))  # Default to black if the team is not in the color dictionary)
+
+
+    # Add labels and title
+    plt.xlabel("Matchweeks")
+    plt.ylabel("Points")
+    plt.title("Team Performance Across Matchweeks")
+    plt.legend(loc="upper left", bbox_to_anchor=(1, 1))  # Put legend outside plot
+
+    # Save the plot
+    plt.grid(True)
+    plt.tight_layout()
+    plt.savefig("plot.png")

@@ -148,9 +148,8 @@ def plot_league():
     plt.grid(True)
     plt.tight_layout()
     plt.savefig("plot.png")
-    #plt.show()
-    
-def plot_league_subset(n):
+        
+def plot_league_subset(n, option):
     # Load the CSV file
     df = pd.read_csv("teams_data.csv")
 
@@ -165,19 +164,32 @@ def plot_league_subset(n):
     with open('team_colours.json', 'r') as file:
         team_colours = json.load(file)
 
-    # Sorts the df based on the final column
-    df_sorted = df.sort_values(by=df.columns[-1], ascending=True)
 
-    # Finds the value of the nth smallest value (considering ties)
-    threshold_value = df_sorted.iloc[(n - 1), -1]  # Get the value of the 5th smallest row in the last column
+    if option == "bot":        
+        # Sorts the df based on the final column
+        df_sorted = df.sort_values(by=df.columns[-1], ascending=True)
+        # Finds the value of the nth smallest value (considering ties)
+        threshold_value = df_sorted.iloc[(n - 1), -1]  # Get the value of the 5th smallest row in the last column
+        # Select all rows where the final value is less than or equal to the threshold_value
+        lowest_rows = df_sorted[df_sorted[df.columns[-1]] <= threshold_value]
 
-    # Select all rows where the final value is less than or equal to the threshold_value
-    lowest_rows = df_sorted[df_sorted[df.columns[-1]] <= threshold_value]
+        # Plot the selected rows
+        for index, row in lowest_rows.iterrows():
+            plt.plot(matchweeks, row[1:], marker="o", linestyle="-", label=row["Team"],
+                    color=team_colours.get(row["Team"], 'black'))  # Default to black if the team is not in the color dictionary)
+        
+    if option == "top":
+        # Sorts the df based on the final column
+        df_sorted = df.sort_values(by=df.columns[-1], ascending=False)
+        # Finds the value of the nth smallest value (considering ties)
+        threshold_value = df_sorted.iloc[(n - 1), -1]  # Get the value of the 5th smallest row in the last column
+        # Select all rows where the final value is less than or equal to the threshold_value
+        highest_rows = df_sorted[df_sorted[df.columns[-1]] >= threshold_value]
 
-    # Plot the selected rows
-    for index, row in lowest_rows.iterrows():
-        plt.plot(matchweeks, row[1:], marker="o", linestyle="-", label=row["Team"],
-                color=team_colours.get(row["Team"], 'black'))  # Default to black if the team is not in the color dictionary)
+        # Plot the selected rows
+        for index, row in highest_rows.iterrows():
+            plt.plot(matchweeks, row[1:], marker="o", linestyle="-", label=row["Team"],
+                color=team_colours.get(row["Team"], 'black'))  # Default to black if the team is not in the color dictionary)        
 
 
 
@@ -190,5 +202,6 @@ def plot_league_subset(n):
     # Save the plot
     plt.grid(True)
     plt.tight_layout()
-    plt.savefig("plot.png")
-    #plt.show()
+    plt.savefig("plot.png")    
+    
+    

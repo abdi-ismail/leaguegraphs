@@ -9,13 +9,13 @@ if os.path.exists(file_path):
 else:
     count = 1
 
-def nextweek():
+def nextweek(league):
     global count
-    save_points_from_matchweeks(count, count, epl)
+    save_points_from_matchweeks(count, count, league)
     count += 1
 
     
-# nextweek()
+nextweek(epl)
 
 plot_league()
 plot_teams(["Arsenal", "Chelsea"])

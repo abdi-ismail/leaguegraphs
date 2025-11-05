@@ -14,12 +14,13 @@ def nextweek(league):
     save_points_from_matchweeks(count, count, league)
     count += 1
 
-    
-nextweek(epl)
+
+while count <8:   
+    nextweek(epl)
 
 plot_league()
-plot_teams(["Arsenal", "Chelsea"])
-plot_point_difference("Man City", "Man Utd")
-plot_league_subset(7, "bot")
+# plot_teams(["Arsenal", "Chelsea"])
+# plot_point_difference("Man City", "Man Utd")
+# plot_league_subset(7, "bot")
 
 

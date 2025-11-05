@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import os
 import json
 
-epl = f"https://www.transfermarkt.co.uk/premier-league/formtabelle/wettbewerb/GB1?saison_id=2024&min=1&max="
+epl = f"https://www.transfermarkt.co.uk/premier-league/formtabelle/wettbewerb/GB1?saison_id=2025&min=1&max="
 ed = f"https://www.transfermarkt.co.uk/premier-league/formtabelle/wettbewerb/NL1?saison_id=2024&min=1&max="
 ll = f"https://www.transfermarkt.co.uk/premier-league/formtabelle/wettbewerb/ES1?saison_id=2024&min=1&max="
 

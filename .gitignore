@@ -2,3 +2,5 @@
 /__pycache__
 count.txt
 teams_data.csv
+output.log
+.env

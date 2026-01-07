@@ -130,9 +130,9 @@ def plot_options(input, title):
         plt.legend(loc="upper left", bbox_to_anchor=(1, 1))
         plt.grid(True)
         plt.tight_layout()
-        plt.savefig(f"{title} - plot.png")
+        plt.savefig(f"charts/{title} - plot.png")
             
-def plot_league():
+def plot_league(league, count):
     # Load the CSV file
     df = pd.read_csv("teams_data.csv")
 
@@ -156,7 +156,7 @@ def plot_league():
         if max_points < row[1:].max():
             max_points = row[1:].max()
 
-    plot_options(max_points, "league")
+    plot_options(max_points, f"{league} {count}")
     # print(max_points)
 
         
@@ -272,4 +272,4 @@ def plot_point_difference(team1, team2):
     # Save the plot
     plt.grid(True)
     plt.tight_layout()
-    plt.savefig(f"plot difference - {team1} {team2}.png")
+    plt.savefig(f"charts/plot difference - {team1} {team2}.png")

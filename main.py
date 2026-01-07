@@ -21,7 +21,7 @@ def nextweek(league):
 
 
 
-# plot_league("epl", count)
-# plot_teams(["Arsenal", "Chelsea"])
-# plot_point_difference("Man City", "Man Utd")
-# plot_league_subset(7, "bot")
+plot_league("epl", count)
+plot_teams(["Arsenal", "Chelsea"])
+plot_point_difference("Man City", "Man Utd")
+plot_league_subset(7, "bot")
